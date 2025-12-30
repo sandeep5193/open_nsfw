@@ -32,9 +32,20 @@ def resize_image(data, sz=(256, 256)):
     if im.mode != "RGB":
         im = im.convert('RGB')
     imr = im.resize(sz, resample=Image.BILINEAR)
+    # imr.save('input_resized.png')
     fh_im = StringIO()
     imr.save(fh_im, format='JPEG')
     fh_im.seek(0)
+
+    """
+    im_jpeg_processed = Image.open(fh_im)
+    raw_pixels = np.array(im_jpeg_processed)
+    with open('raw_256_jpeg_processed.bin', 'wb') as f:
+        f.write(raw_pixels.tobytes())
+
+    fh_im.seek(0)
+    """
+
     return bytearray(fh_im.read())
 
 def caffe_preprocess_and_compute(pimg, caffe_transformer=None, caffe_net=None,
